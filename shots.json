@@ -1,1 +1,43 @@
-[{"detail":28,"file":"1-cover.jpg","seed":"13","spoiler":"off","view":"tracker","viewport":{"height":800,"width":1280}},{"file":"2-roadmap.jpg","seed":"13","view":"roadmap","viewport":{"height":800,"width":1280}},{"file":"3-missable.jpg","seed":"13","view":"missables","viewport":{"height":800,"width":1280}},{"file":"4-spoiler.jpg","grade":"silver","seed":"13","spoiler":"on","view":"tracker","viewport":{"height":800,"width":1280}}]
+[
+  {
+    "detail": 19,
+    "file": "1-cover.jpg",
+    "seed": "13",
+    "spoiler": "off",
+    "view": "tracker",
+    "viewport": {
+      "height": 800,
+      "width": 1280
+    }
+  },
+  {
+    "file": "2-roadmap.jpg",
+    "seed": "13",
+    "view": "roadmap",
+    "viewport": {
+      "height": 800,
+      "width": 1280
+    }
+  },
+  {
+    "file": "3-missable.jpg",
+    "seed": "13",
+    "view": "missables",
+    "viewport": {
+      "height": 800,
+      "width": 1280
+    }
+  },
+  {
+    "file": "4-spoiler.jpg",
+    "grade": "silver",
+    "seed": "13",
+    "spoiler": "on",
+    "view": "tracker",
+    "viewport": {
+      "height": 800,
+      "width": 1280
+    },
+    "detail": 30
+  }
+]

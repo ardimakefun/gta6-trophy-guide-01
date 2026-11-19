@@ -3,6 +3,8 @@
 // data file. Progress lives in localStorage; export/import move it as JSON.
 const KEY = 'vice-city-trophy-atlas-v1';
 const POWERPYX = 'https://www.powerpyx.com/gta-6-grand-theft-auto-vi-trophy-guide-roadmap/';
+const GTABASE = 'https://www.gtabase.com/articles/gta-6/gta-6-achievements-trophies-list-ps5-xbox-series';
+const OUTPUTLAG = 'https://outputlag.com/guides/gta-6-trophy-list/';
 
 // Roadmap phases, in the order a player meets them. Trophy ids are the
 // official list's ids. Built from the official descriptions; times and the
@@ -222,10 +224,9 @@ function renderDetail() {
     pane.append(el('p', 'guide-text', t.guide));
     pane.append(el('h4', null, 'Sources'));
     const ul = el('ul', 'source-list-inline');
-    const roles = ['Official list', 'Guide method'];
     t.sources.forEach((s, i) => {
       const li = el('li');
-      li.append(el('span', 'src-role', `${roles[i] || 'Source'}: `));
+      li.append(el('span', 'src-role', `${i === 0 ? 'Official list' : 'Guide method'}: `));
       if (s.url) {
         const a = document.createElement('a');
         a.href = s.url; a.target = '_blank'; a.rel = 'noopener'; a.textContent = s.name;
@@ -285,11 +286,16 @@ function renderMissables() {
     call.append(el('strong', null, 'What to do: '), document.createTextNode(t.missable_note));
     card.append(call);
     const src = el('p');
-    src.append(document.createTextNode('Source: '));
+    src.append(document.createTextNode('Sources: '));
     const a = document.createElement('a');
     a.href = POWERPYX; a.target = '_blank'; a.rel = 'noopener';
     a.textContent = 'PowerPyx — GTA 6 Trophy Guide & Roadmap';
     src.append(a);
+    src.append(document.createTextNode(' · '));
+    const b = document.createElement('a');
+    b.href = GTABASE; b.target = '_blank'; b.rel = 'noopener';
+    b.textContent = 'GTABase — GTA 6 Trophy Guide & Achievements List';
+    src.append(b);
     card.append(src);
     wrap.append(card);
   }
@@ -304,6 +310,16 @@ function renderSources() {
       name: 'PowerPyx — GTA 6 Trophy Guide & Roadmap',
       url: POWERPYX,
       text: 'Per-trophy methods, the roadmap times and difficulty rating (4/10, ~200 hours), the missable flag, and the 100% checklist details. Every guide method in this atlas traces to this page.',
+    },
+    {
+      name: 'GTABase — GTA 6 Trophy Guide & Achievements List',
+      url: GTABASE,
+      text: 'Per-trophy unlock tips for all 55 trophies, the roadmap, the missable flag and the 100% checklist details — the second method source beside every guide in this atlas.',
+    },
+    {
+      name: 'Output Lag — GTA 6 Trophy List',
+      url: OUTPUTLAG,
+      text: 'Method sections for the robbery, partner, free-roam and grind trophies, the time-sensitive Yago race note for Strangers & Freaks, and the Chapter 1 save rules.',
     },
     {
       name: 'Exophase — GTA 6 trophy list',
