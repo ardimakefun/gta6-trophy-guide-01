@@ -3,23 +3,126 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>GTA VI trophy checklist</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23150a20'/%3E%3Cpath d='M16 5 L25 16 L16 27 L7 16 Z' fill='%23ffd166'/%3E%3C/svg%3E">
+<title>Vice City Trophy Atlas — GTA VI Trophy Guide &amp; Tracker</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<header>
-  <h1>GTA VI trophy checklist</h1>
-  <p id="progress">0 of 55 earned</p>
+<header class="masthead">
+  <div class="masthead-text">
+    <p class="eyebrow">Grand Theft Auto VI &middot; PlayStation 5</p>
+    <h1>Vice City Trophy Atlas</h1>
+    <p class="tagline">The complete guide and tracker for all 55 trophies — offline, in your browser, no account needed.</p>
+  </div>
+  <div class="progress-card" id="progressCard" aria-label="Progress to platinum">
+    <div class="progress-big"><span id="earnedCount">0</span><span class="of"> / 55</span></div>
+    <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="55" aria-valuenow="0" id="progressBarWrap"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+    <p class="progress-sub" id="progressSub">0% to the platinum</p>
+    <div class="grade-counts" id="gradeCounts"></div>
+  </div>
 </header>
-<div class="controls">
-  <label>Grade <select id="grade"><option value="all">All</option><option value="platinum">Platinum</option><option value="gold">Gold</option><option value="silver">Silver</option><option value="bronze">Bronze</option></select></label>
-  <button id="export" type="button">Export progress</button>
-  <label class="import">Import progress <input id="import" type="file" accept="application/json"></label>
-</div>
-<table>
-  <thead><tr><th>Earned</th><th>Trophy</th><th>Grade</th><th>How to get it</th></tr></thead>
-  <tbody id="rows"></tbody>
-</table>
+
+<nav class="tabs" aria-label="Guide sections">
+  <button type="button" class="tab active" data-view="tracker" id="tab-tracker">Tracker</button>
+  <button type="button" class="tab" data-view="roadmap" id="tab-roadmap">Platinum Roadmap</button>
+  <button type="button" class="tab" data-view="missables" id="tab-missables">Missables <span class="tab-badge" id="missableTabBadge">1</span></button>
+  <button type="button" class="tab" data-view="sources" id="tab-sources">Sources</button>
+</nav>
+
+<main>
+  <section id="view-tracker" class="view active" aria-label="Trophy tracker">
+    <div class="nextup" id="nextUp" aria-label="Next up"></div>
+    <div class="controls">
+      <label class="control search">Search <input id="search" type="search" placeholder="Trophy name or description…" autocomplete="off"></label>
+      <label class="control">Grade
+        <select id="gradeFilter">
+          <option value="all">All grades</option>
+          <option value="platinum">Platinum</option>
+          <option value="gold">Gold</option>
+          <option value="silver">Silver</option>
+          <option value="bronze">Bronze</option>
+        </select>
+      </label>
+      <label class="control">Kind
+        <select id="kindFilter">
+          <option value="all">All kinds</option>
+          <option value="story">Story</option>
+          <option value="activity">Activity</option>
+          <option value="collectible">Collectible</option>
+          <option value="combat">Combat</option>
+          <option value="exploration">Exploration</option>
+          <option value="misc">Other</option>
+        </select>
+      </label>
+      <label class="control">Sort
+        <select id="sortFilter">
+          <option value="official">Official order</option>
+          <option value="unearned">Un-earned first</option>
+          <option value="grade">Grade (best first)</option>
+          <option value="name">Name A–Z</option>
+        </select>
+      </label>
+      <label class="control switch">Hide story spoilers
+        <input id="spoilerToggle" type="checkbox" checked>
+        <span class="switch-ui" aria-hidden="true"></span>
+      </label>
+      <span class="spacer"></span>
+      <button id="exportBtn" type="button" class="btn">Export progress</button>
+      <label class="btn import">Import progress <input id="importFile" type="file" accept="application/json,.json"></label>
+      <button id="resetBtn" type="button" class="btn ghost">Reset</button>
+    </div>
+    <p class="list-meta" id="listMeta"></p>
+    <div class="tracker-grid">
+      <div class="trophy-list" id="trophyList" role="list"></div>
+      <aside class="detail" id="detailPane" aria-label="Trophy guide detail" aria-live="polite"></aside>
+    </div>
+  </section>
+
+  <section id="view-roadmap" class="view" aria-label="Platinum roadmap">
+    <div class="roadmap-intro">
+      <h2>Road to the platinum</h2>
+      <p>One playthrough, no online trophies, no difficulty setting, no mission replay — but free-roam after the story, and the 100% checklist is far more forgiving than it sounds. PowerPyx rates the set <strong>4/10</strong> at about <strong>200 hours</strong>. Follow the four phases in order; the trophies inside each phase are listed in the order you will meet them.</p>
+      <p class="roadmap-facts"><span><strong>55</strong> trophies</span><span><strong>~200 h</strong> to platinum</span><span><strong>1</strong> playthrough</span><span><strong>0</strong> online</span><span><strong>1</strong> possibly missable</span></p>
+    </div>
+    <div id="roadmapPhases" class="phases"></div>
+    <p class="roadmap-note">Roadmap and phase order built from the official trophy descriptions. Times and difficulty from PowerPyx's GTA 6 Trophy Guide &amp; Roadmap.</p>
+  </section>
+
+  <section id="view-missables" class="view" aria-label="Missable trophies">
+    <h2>Missables — what can actually be missed</h2>
+    <div id="missableList"></div>
+    <div class="missable-explainer">
+      <h3>Why only one trophy is flagged</h3>
+      <p>There is <strong>no mission replay</strong> and no New Game+, so the instinct is to worry about everything. In practice almost nothing is missable: story trophies pop automatically as you play, and every optional questline stays available in free-roam after the story — PowerPyx confirms this for Andy, Kenton, Billy, Randy, Tyrone and Bret, and for the Strangers &amp; Freaks strands. Optional missions that disappear (black icons with pink letters) do not matter for trophies, and there are far more than the 100 optional missions the 100% checklist asks for.</p>
+      <h3>Save strategy (cheap insurance)</h3>
+      <p>The game gives you <strong>15 manual save slots</strong> plus one autosave. Keep a save at the <strong>start of every chapter</strong> (5 saves), one before the final mission, and rotate the rest for free-roam cleanup. That covers the one trophy below and any choice you later regret — including the Chapter 1 meditation, which is the only thing in the whole list that can disappear.</p>
+      <h3>Not missable, despite looking like it</h3>
+      <ul>
+        <li><strong>Story trophies</strong> — every chapter and named-mission trophy pops automatically; you cannot skip a chapter.</li>
+        <li><strong>Character questlines</strong> (Andy, Kenton, Billy, Randy, Tyrone, Bret, Cal) — quest givers can go quiet mid-story but all return and stay available after the story.</li>
+        <li><strong>Kingpin Bowling valuables</strong> — the robbery icon respawns, so you can come back for the items you missed.</li>
+        <li><strong>100% checklist</strong> — nothing toward it is missable; everything is doable in free-roam after the story.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="view-sources" class="view" aria-label="Sources">
+    <h2>Sources — where every fact comes from</h2>
+    <p class="sources-intro">Every trophy in this guide names its sources beside its guide. The official names, descriptions and grades are shown exactly as PlayStation publishes them. The methods are written in this guide's own words — sources are cited, never copied.</p>
+    <div id="sourceList" class="source-list"></div>
+    <div class="honesty">
+      <h3>What is not yet confirmed</h3>
+      <p>Five trophies have no confirmed unlock method in any published guide yet: <strong>In The Beginning…</strong>, <strong>Capital Offense</strong>, <strong>Bad Luck, I Guess</strong>, <strong>The Truth Is Out There</strong> and <strong>Ten Pin</strong>. Their entries say so plainly and give only what the official description supports. PowerPyx lists all five as currently unknown (with a believed lead for three of them); this guide repeats the lead and labels it as a belief, not a method. Check the PowerPyx link beside each one for updates rather than following an unverified method.</p>
+      <p>The trophy list itself is cross-checked: the 55 names, descriptions and grades in this guide match the list published by Exophase on 18 November 2026 and the lists at PowerPyx, Radio Times and Press Start.</p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <p>Vice City Trophy Atlas — an offline, open-source fan guide. All art, lettering and layout are original. No Rockstar Games logo, artwork or font. Trophy names and descriptions are shown as PlayStation publishes them; guide text is this guide's own words, with sources cited beside each trophy.</p>
+  <p class="fine">Grand Theft Auto VI releases 19 November 2026. Guide data checked against published lists on 19 November 2026; methods will be updated as guides confirm them.</p>
+</footer>
+
 <script type="module" src="app.js"></script>
 </body>
 </html>
