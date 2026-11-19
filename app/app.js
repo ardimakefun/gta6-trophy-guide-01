@@ -175,7 +175,7 @@ function renderList() {
     body.append(el('div', 'trophy-name', spoiled ? 'Hidden story trophy' : t.name));
     body.append(el('div', 'trophy-desc', spoiled ? 'Earn this trophy to reveal its name and description.' : t.description));
     const tags = el('div', 'trophy-tags');
-    tags.append(tagEl(t.grade, t.grade), tagEl(t.kind === 'misc' ? 'other' : t.kind, ''));
+    tags.append(tagEl(t.grade, t.grade), tagEl(t.kind === 'misc' ? 'Milestone' : t.kind, ''));
     if (t.missable) tags.append(tagEl('⚠ possibly missable', 'missable'));
     if (t.guide.startsWith('Not yet confirmed')) tags.append(tagEl('method unconfirmed', 'unconfirmed'));
     body.append(tags);
@@ -201,7 +201,7 @@ function renderDetail() {
   const spoiled = isSpoiled(t);
 
   const tags = el('div', 'trophy-tags');
-  tags.append(tagEl(t.grade, t.grade), tagEl(t.kind === 'misc' ? 'other' : t.kind, ''));
+  tags.append(tagEl(t.grade, t.grade), tagEl(t.kind === 'misc' ? 'Milestone' : t.kind, ''));
   if (t.missable) tags.append(tagEl('⚠ possibly missable', 'missable'));
   pane.append(tags);
   pane.append(el('h3', null, spoiled ? 'Hidden story trophy' : t.name));
@@ -309,7 +309,7 @@ function renderSources() {
     {
       name: 'PowerPyx — GTA 6 Trophy Guide & Roadmap',
       url: POWERPYX,
-      text: 'Per-trophy methods, the roadmap times and difficulty rating (4/10, ~200 hours), the missable flag, and the 100% checklist details. Every guide method in this atlas traces to this page.',
+      text: 'The main method source for this atlas: per-trophy methods, the roadmap times and difficulty rating (4/10, ~200 hours), the missable flag, and the 100% checklist details.',
     },
     {
       name: 'GTABase — GTA 6 Trophy Guide & Achievements List',
@@ -323,13 +323,18 @@ function renderSources() {
     },
     {
       name: 'Exophase — GTA 6 trophy list',
-      url: null,
+      url: 'https://www.exophase.com/game/grand-theft-auto-vi-psn/trophies/',
       text: 'The official list mirror: the 55 names, descriptions and grades in this guide match the list Exophase published on 18 November 2026.',
     },
     {
       name: 'Radio Times — GTA 6 trophy guide',
       url: 'https://www.radiotimes.com/technology/gaming/gta-6-trophies-achievements-list/',
       text: 'Independent cross-check of the full 55-trophy list, names, descriptions and grades.',
+    },
+    {
+      name: 'Press Start — GTA 6 trophy list',
+      url: 'https://press-start.com.au/news/2026/11/18/gta-6-trophy-list/',
+      text: 'Independent cross-check of the full 55-trophy list, names, descriptions and grades — published 18 November 2026.',
     },
     {
       name: 'EGamers.io — GTA 6 trophy list',
