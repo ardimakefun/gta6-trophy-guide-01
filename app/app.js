@@ -54,7 +54,7 @@ const byId = new Map(trophies.map((t) => [t.id, t]));
 let saved = {};
 try { saved = JSON.parse(localStorage.getItem(KEY) ?? '{}'); } catch { saved = {}; }
 let earned = new Set((saved.earned ?? []).filter((id) => byId.has(id)));
-let spoiler = saved.spoiler !== undefined ? !!saved.spoiler : true;
+let spoiler = saved.spoiler !== undefined ? !!saved.spoiler : false;
 if (shotMode && params.get('seed')) {
   const seed = params.get('seed');
   earned = new Set(seed === '13' ? SEED_13 : seed.split(',').map(Number).filter((id) => byId.has(id)));
@@ -420,7 +420,7 @@ $('importFile').addEventListener('change', async (e) => {
     }
     save();
     renderAll();
-    $('listMeta').textContent = `Imported ${added} new trophy${added === 1 ? '' : 'ies'} from ${file.name}.`;
+    $('listMeta').textContent = `Imported ${added} new ${added === 1 ? 'trophy' : 'trophies'} from ${file.name}.`;
   } catch {
     $('listMeta').textContent = `Could not read ${file.name} — not a valid progress file.`;
   }
